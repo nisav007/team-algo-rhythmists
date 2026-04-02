@@ -23,6 +23,11 @@ Run the `fall_detection.py` file to detect whether an elderly person has fallen 
 ## Demo link
 https://fall-alert-system--audichinmay1010.replit.app/
 
+## Screenshots
+![Fall Alert Dashboard](screenshots/fall_alert_app.png)
+
+![Smartphone fall alert notification](screenshots/alert_screenshot.jpg)
+
 ## Team members
 1) Chinmay Bhangale, Team Lead, NITK Surathkal
 2) Nishant Sahu, Team Member, NITK Surathkal
