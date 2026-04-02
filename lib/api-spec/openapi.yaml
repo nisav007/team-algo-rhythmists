@@ -1,0 +1,272 @@
+openapi: 3.1.0
+info:
+  title: Api
+  version: 0.1.0
+  description: Fall Detection Alert System API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: falls
+    description: Fall detection events
+  - name: contacts
+    description: Emergency contacts
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      description: Returns server health status
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /falls:
+    get:
+      operationId: listFalls
+      tags: [falls]
+      summary: List all fall events
+      responses:
+        "200":
+          description: List of fall events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FallEvent"
+    post:
+      operationId: reportFall
+      tags: [falls]
+      summary: Report a fall detected event
+      description: Creates a fall event and sends SMS alerts to all emergency contacts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReportFallBody"
+      responses:
+        "201":
+          description: Fall event created and SMS alerts sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReportFallResponse"
+
+  /falls/summary:
+    get:
+      operationId: getFallsSummary
+      tags: [falls]
+      summary: Get summary statistics for fall events
+      responses:
+        "200":
+          description: Summary statistics
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FallsSummary"
+
+  /falls/{id}:
+    delete:
+      operationId: deleteFall
+      tags: [falls]
+      summary: Delete a fall event
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Fall event deleted
+        "404":
+          description: Not found
+
+  /contacts:
+    get:
+      operationId: listContacts
+      tags: [contacts]
+      summary: List all emergency contacts
+      responses:
+        "200":
+          description: List of contacts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Contact"
+    post:
+      operationId: createContact
+      tags: [contacts]
+      summary: Add an emergency contact
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateContactBody"
+      responses:
+        "201":
+          description: Contact created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Contact"
+
+  /contacts/{id}:
+    delete:
+      operationId: deleteContact
+      tags: [contacts]
+      summary: Remove an emergency contact
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Contact deleted
+        "404":
+          description: Not found
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    FallEvent:
+      type: object
+      properties:
+        id:
+          type: integer
+        location:
+          type: ["string", "null"]
+        notes:
+          type: ["string", "null"]
+        smsStatus:
+          type: string
+        smsSentCount:
+          type: integer
+        detectedAt:
+          type: string
+          format: date-time
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - location
+        - notes
+        - smsStatus
+        - smsSentCount
+        - detectedAt
+        - createdAt
+
+    ReportFallBody:
+      type: object
+      properties:
+        location:
+          type: string
+        notes:
+          type: string
+      required: []
+
+    ReportFallResponse:
+      type: object
+      properties:
+        fall:
+          $ref: "#/components/schemas/FallEvent"
+        smsResults:
+          type: array
+          items:
+            $ref: "#/components/schemas/SmsResult"
+      required:
+        - fall
+        - smsResults
+
+    SmsResult:
+      type: object
+      properties:
+        contactName:
+          type: string
+        phone:
+          type: string
+        success:
+          type: boolean
+        message:
+          type: string
+      required:
+        - contactName
+        - phone
+        - success
+        - message
+
+    FallsSummary:
+      type: object
+      properties:
+        totalFalls:
+          type: integer
+        todayFalls:
+          type: integer
+        thisWeekFalls:
+          type: integer
+        lastFallAt:
+          type: ["string", "null"]
+        totalContacts:
+          type: integer
+      required:
+        - totalFalls
+        - todayFalls
+        - thisWeekFalls
+        - lastFallAt
+        - totalContacts
+
+    Contact:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        phone:
+          type: string
+        relationship:
+          type: ["string", "null"]
+        createdAt:
+          type: string
+          format: date-time
+      required:
+        - id
+        - name
+        - phone
+        - relationship
+        - createdAt
+
+    CreateContactBody:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        relationship:
+          type: string
+      required:
+        - name
+        - phone
