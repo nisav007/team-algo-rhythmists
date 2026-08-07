@@ -11,7 +11,7 @@ Develop an AI-based system that assists elderly users in maintaining independenc
 ## Solution
 We developed a 3D pose-based fall detection system for elderly people. Developed a dashboard app that will send an SMS alert every time a fall is detected to the concerned person tagged with the location of the fall.
 
-## ## Fall Detection Visualization
+## Fall Detection Visualization
 
 
 <img width="948" height="468" alt="Screenshot 2026-04-02 090034" src="https://github.com/user-attachments/assets/9fdaf2b0-b6c2-4829-9c02-07a0a38016c2" />
