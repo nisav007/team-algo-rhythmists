@@ -9,7 +9,16 @@ Enhancing Elderly Safety: Real-Time Fall Detection and Automated Incident Report
 Develop an AI-based system that assists elderly users in maintaining independence, safety and well-being through smart monitoring reminders and interactions.
 
 ## Solution
-We developed a heatmap-based fall detection system for elderly people. Developed a dashboard app that will send an SMS alert every time a fall is detected to the concerned person tagged with the location of the fall.
+We developed a 3D pose-based fall detection system for elderly people. Developed a dashboard app that will send an SMS alert every time a fall is detected to the concerned person tagged with the location of the fall.
+
+## ## Fall Detection Visualization
+
+
+<img width="948" height="468" alt="Screenshot 2026-04-02 090034" src="https://github.com/user-attachments/assets/9fdaf2b0-b6c2-4829-9c02-07a0a38016c2" />
+<img width="907" height="480" alt="Screenshot 2026-04-02 090020" src="https://github.com/user-attachments/assets/116f5d84-20f4-4379-891a-f4cc007465c8" />
+
+
+
 
 ## Tech Stack
 - Frontend: React, Vite, Tailwind CSS, shadcn/ui, TanStack React Query, Wouter, React Hook Form + Zod, Lucide React
